@@ -24,16 +24,30 @@ Before an agent escalates, Escalation Check:
 5. logs the decision, so the effect can be measured
 
 It has two modes. **Monitor** warns and logs gaps. **Enforce** blocks escalation until the checklist is
-complete.
+complete. The mode switch is at the bottom of the side menu.
+
+The side menu is grouped by who uses each screen, and the top bar shows where you are, the data period
+and the current mode.
 
 | Screen | For | What it does |
 |---|---|---|
-| Tickets | L1 agent | Queue with search and filters |
-| Ticket check | L1 agent | History, known issues, checklist, handoff note, decision |
-| Lead dashboard | Support lead | Weekly measures, agent table, tickets needing attention |
+| Overview | Reviewer | The problem in four numbers, how the check works, a two-minute demo path |
+| Ticket queue | L1 agent | Queue with search and filters |
+| Ticket check | L1 agent | Five numbered steps: history, known issues, checklist, handoff note, decision |
+| Dashboard | Support lead | Weekly measures, agent table, tickets needing attention |
 | Does it work? | Reviewer | Predictor test and what-if scenario on the ticket history |
 | Known issues | Engineering | Board that agents see during the check |
 | Decision log | Support lead | Every check and what the agent decided |
+
+### A two-minute tour
+
+1. Open the **Overview** page. It shows the problem in four numbers and how the check works.
+2. Open ticket `SUP-11438` from the **Ticket queue**. The history shows most past escalations of this
+   issue came back.
+3. Fill in part of the checklist and click **Generate note**. The note lists what was not provided.
+4. Click **Escalate to engineering**. In Monitor mode it is allowed and the gaps are logged.
+5. Switch to **Enforce** and try again. Escalation is blocked until the checklist is complete.
+6. Open the **Decision log** to see what was recorded.
 
 ## Tech stack
 
@@ -42,8 +56,8 @@ complete.
 | Frontend | Next.js (React, TypeScript), Tailwind CSS, TanStack Query, Recharts |
 | Backend | FastAPI, pandas |
 | Storage | CSV for ticket data, SQLite for decisions and known issues |
-| Handoff note | Plain template, optionally rewritten by Gemini through LiteLLM |
-| Tests | pytest |
+| Handoff note | Plain template, optionally rewritten by Gemini through LiteLLM (the only use of AI) |
+| Tests | pytest (32 tests), ruff, TypeScript, ESLint, Prettier |
 | Analysis | Jupyter notebooks |
 
 ## Project structure
@@ -70,24 +84,54 @@ Each file does one job and is kept short (the longest backend file is under 90 l
 │   │   └── store/             SQLite: decisions, known issues, mode
 │   ├── data/                  the two case-study CSV files
 │   ├── tests/                 32 pytest tests, one file per module
+│   ├── Dockerfile             backend image
 │   ├── requirements.txt       runtime dependencies
 │   ├── requirements-dev.txt   adds pytest and ruff
 │   └── pyproject.toml         pytest and ruff settings
 ├── frontend/
+│   ├── Dockerfile             frontend image
 │   └── src/
 │       ├── app/               pages (thin: they only compose features)
-│       ├── features/          tickets, check, dashboard, evidence, known-issues, log
-│       ├── components/        shared ui, layout and charts
-│       └── lib/               API client, formatters, types
+│       ├── features/          overview, tickets, check, dashboard, evidence, known-issues, log
+│       ├── components/        shared ui, layout (sidebar, top bar) and charts
+│       └── lib/               API client, formatters, clipboard helper, types
 ├── notebooks/
 │   ├── 01_diagnosis.ipynb
 │   ├── 02_success_measures.ipynb
 │   └── 03_does_it_work.ipynb
+├── docker-compose.yml         runs backend and frontend together
 ├── render.yaml                backend deploy config
 └── README.md
 ```
 
-## Getting started
+## Run with Docker
+
+The quickest way to run everything. It needs only Docker Desktop.
+
+```bash
+docker compose up --build
+```
+
+Then open http://localhost:3000. The API is at http://localhost:8001/docs.
+
+To stop it:
+
+```bash
+docker compose down
+```
+
+Good to know:
+
+- **Ports.** If 3000 or 8001 is already used on your machine, create a file named `.env` next to
+  `docker-compose.yml` with, for example, `API_PORT=8011` or `WEB_PORT=3010`, then run
+  `docker compose up --build` again.
+- **AI note.** To turn on the Gemini handoff note, put `GEMINI_API_KEY` in `backend/.env` before
+  starting. Without it the template note is used. The key is passed to the container when it runs and
+  is never copied into the image.
+- **Saved data.** The decision log and known issues are kept in a Docker volume, so they survive a
+  restart. `docker compose down -v` deletes them.
+
+## Run without Docker
 
 Requires Python 3.11 and Node 20 or later.
 
@@ -138,6 +182,7 @@ cd frontend
 npm run typecheck
 npm run lint
 npm run format
+npm run build
 ```
 
 ### 5. Notebooks
@@ -156,10 +201,12 @@ Each notebook is self-contained: it reads the CSV and uses plain pandas steps. T
 | backend | `ALLOWED_ORIGINS` | Comma-separated frontend origins allowed to call the API |
 | backend | `ALLOWED_ORIGIN_REGEX` | Optional pattern, for example for Vercel preview URLs |
 | backend | `GEMINI_API_KEY` | Optional. Enables the AI-written handoff note |
-| backend | `LLM_MODEL` | Optional. Any LiteLLM model name |
+| backend | `LLM_MODEL` | Optional. Any LiteLLM model name. Default `gemini/gemini-3.5-flash-lite` |
 | frontend | `NEXT_PUBLIC_API_URL` | URL of the backend, no trailing slash |
 
-Without `GEMINI_API_KEY` the app uses the template note, and everything else works the same.
+Without `GEMINI_API_KEY` the app uses the template note, and everything else works the same. If Gemini
+is slow or returns an error, the app also falls back to the template note. The label under the note
+says which one was used. Never commit a real key: `backend/.env` is git-ignored.
 
 ## Deploy
 
@@ -192,7 +239,7 @@ escalation, and duplicates are handled by a board that engineering maintains.
 ## Assumptions and limits
 
 - **Checklists are a first draft.** The data does not say what engineering needs per category. The items
-  in `backend/app/checklists.py` were written from the category names and return reasons and need
+  in `backend/app/checklists/` were written from the category names and return reasons and need
   engineering review.
 - **The scenario is a what-if, not a measurement.** The prevention rate is an input. Only a pilot can
   measure it.
@@ -200,6 +247,10 @@ escalation, and duplicates are handled by a board that engineering maintains.
   escalations still take about 65 hours. At 100% prevention the what-if still leaves 35 open tickets
   against 48 actual.
 - **Known issues are seeded** from issue types that engineering returned as duplicates four or more
-  times. Workarounds are placeholders.
+  times. Their workarounds are empty until engineering adds them.
+- **"Similar tickets" means the same description** once numbers are removed. That works on this data
+  (201 descriptions become 48 issue types) but real free-text tickets would need looser matching.
+- **AI is used in one place only**, to reword the handoff note. It never decides whether a ticket is
+  escalated.
 - **No login.** Agent identity comes from the ticket's assigned agent.
 - **Ticket data is static.** Logging a decision does not change a ticket's status.

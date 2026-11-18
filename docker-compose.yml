@@ -1,0 +1,37 @@
+# Run the whole app with:  docker compose up --build
+# Then open http://localhost:3000
+#
+# If port 3000 or 8001 is already used on your machine, set WEB_PORT or API_PORT,
+# for example in a file named .env next to this one:  API_PORT=8011
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "${API_PORT:-8001}:8001"
+    environment:
+      # The browser origin that is allowed to call the API.
+      ALLOWED_ORIGINS: http://localhost:${WEB_PORT:-3000}
+    # Optional: backend/.env can hold GEMINI_API_KEY and LLM_MODEL.
+    # Without it the app still runs and uses the template handoff note.
+    env_file:
+      - path: ./backend/.env
+        required: false
+    volumes:
+      # Keeps the decision log and known issues between restarts.
+      - app-data:/var/lib/escalation-check
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Where the browser finds the API.
+        NEXT_PUBLIC_API_URL: http://localhost:${API_PORT:-8001}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  app-data:

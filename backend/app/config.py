@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 TICKETS_CSV = DATA_DIR / "rideops_support_tickets.csv"
-DEFAULT_LLM_MODEL = "gemini/gemini-2.0-flash"
+DEFAULT_LLM_MODEL = "gemini/gemini-3.5-flash-lite"
 
 load_dotenv(BASE_DIR / ".env")  # real environment variables win over the file
 
