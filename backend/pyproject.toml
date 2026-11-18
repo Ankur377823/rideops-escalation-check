@@ -1,0 +1,16 @@
+[project]
+name = "escalation-check-api"
+version = "0.1.0"
+description = "Pre-escalation check API for RideOps L1 support"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
