@@ -4,8 +4,9 @@ A pre-escalation check for RideOps L1 support agents, built for the RideOps Supp
 
 ## The problem
 
-RideOps' open tickets are rising. The ticket data points to one main cause: escalations that engineering
-cannot act on.
+RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Ticket
+volume grew 52% in the same period, but the data points to one cause the team controls: escalations
+that engineering cannot act on.
 
 - 486 of 1,444 tickets were escalated to engineering.
 - 275 of those (57%) came back without an engineering fix: missing information, config issues L1 could

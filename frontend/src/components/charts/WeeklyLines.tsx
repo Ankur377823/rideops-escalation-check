@@ -28,6 +28,8 @@ export function WeeklyLines({ data, xKey, series, height = 240, unit = "" }: Pro
           tickLine={false}
           axisLine={{ stroke: GRID }}
           tickFormatter={(v: string) => v.slice(5)}
+          interval="preserveStartEnd"
+          minTickGap={28}
         />
         <YAxis tick={AXIS} tickLine={false} axisLine={false} allowDecimals={false} unit={unit} />
         <Tooltip
