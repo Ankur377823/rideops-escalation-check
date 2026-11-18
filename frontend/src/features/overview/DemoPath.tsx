@@ -1,0 +1,39 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { Card } from "@/components/ui";
+
+const DEMO_TICKET = "SUP-11438";
+
+function To({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link href={href} className="font-medium text-blue-700 hover:underline">
+      {children}
+    </Link>
+  );
+}
+
+export function DemoPath() {
+  return (
+    <Card title="Try it in two minutes" hint="A short path through the main features.">
+      <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
+        <li>
+          Open ticket <To href={`/tickets/${DEMO_TICKET}`}>{DEMO_TICKET}</To>. The history shows
+          that most past escalations of this issue came back.
+        </li>
+        <li>Fill in part of the checklist, then generate the handoff note.</li>
+        <li>
+          Click <b>Escalate to engineering</b>. In Monitor mode it is allowed, and the gaps are
+          logged.
+        </li>
+        <li>
+          Switch <b>Check mode</b> to Enforce (bottom of the menu) and try again. Escalation is now
+          blocked until the checklist is complete.
+        </li>
+        <li>
+          Open the <To href="/log">decision log</To> to see what was recorded, then the{" "}
+          <To href="/dashboard">dashboard</To> for the measures a lead would track.
+        </li>
+      </ol>
+    </Card>
+  );
+}

@@ -1,0 +1,12 @@
+# Installed and built inside the image instead.
+node_modules/
+.next/
+
+# Local settings. The API address is passed as a build argument.
+.env*
+
+# Not needed in the image.
+AGENTS.md
+*.tsbuildinfo
+Dockerfile
+.dockerignore

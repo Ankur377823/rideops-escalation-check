@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  /* Chart colours: validated categorical slots 1 and 2. */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* One clear keyboard focus style for every control. */
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+input[type="checkbox"],
+input[type="range"] {
+  accent-color: #2563eb;
+}
