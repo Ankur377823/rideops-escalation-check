@@ -6,7 +6,8 @@ from fastapi.testclient import TestClient
 def client(tmp_path, monkeypatch):
     """App wired to a throwaway database, with the LLM switched off."""
     monkeypatch.setenv("ESCALATION_CHECK_DB", str(tmp_path / "test.db"))
-    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    # An empty value (not a missing one) stops backend/.env from switching the LLM back on.
+    monkeypatch.setenv("GEMINI_API_KEY", "")
     from app.main import app
 
     with TestClient(app) as c:

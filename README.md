@@ -57,7 +57,7 @@ and the current mode.
 | Backend | FastAPI, pandas |
 | Storage | CSV for ticket data, SQLite for decisions and known issues |
 | Handoff note | Plain template, optionally rewritten by Gemini through LiteLLM (the only use of AI) |
-| Tests | pytest (32 tests), ruff, TypeScript, ESLint, Prettier |
+| Tests | pytest (33 tests, including one end-to-end journey), ruff, TypeScript, ESLint, Prettier |
 | Analysis | Jupyter notebooks |
 
 ## Project structure
@@ -83,7 +83,7 @@ Each file does one job and is kept short (the longest backend file is under 90 l
 │   │   ├── handoff/           handoff note: template and optional LLM
 │   │   └── store/             SQLite: decisions, known issues, mode
 │   ├── data/                  the two case-study CSV files
-│   ├── tests/                 32 pytest tests, one file per module
+│   ├── tests/                 33 pytest tests: one file per module, plus one end-to-end journey
 │   ├── Dockerfile             backend image
 │   ├── requirements.txt       runtime dependencies
 │   ├── requirements-dev.txt   adds pytest and ruff

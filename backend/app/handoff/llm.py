@@ -17,7 +17,6 @@ def rewrite(base_note: str) -> str:
     response = litellm.completion(
         model=config.llm_model(),
         messages=[{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": base_note}],
-        temperature=0.2,
         timeout=20,
     )
     text = (response.choices[0].message.content or "").strip()
