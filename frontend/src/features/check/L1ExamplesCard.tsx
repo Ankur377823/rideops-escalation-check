@@ -1,14 +1,8 @@
 import { Card, TicketLink } from "@/components/ui";
-import { hours, pct } from "@/lib/format";
-import type { AgentContext, L1Example } from "@/lib/types/check";
+import { hours } from "@/lib/format";
+import type { L1Example } from "@/lib/types/check";
 
-export function L1ExamplesCard({
-  examples,
-  agent,
-}: {
-  examples: L1Example[];
-  agent: AgentContext;
-}) {
+export function L1ExamplesCard({ examples }: { examples: L1Example[] }) {
   return (
     <Card
       title="Who solved this at L1"
@@ -24,10 +18,6 @@ export function L1ExamplesCard({
           </li>
         ))}
       </ul>
-      <p className="mt-3 border-t border-slate-100 pt-3 text-[13px] text-slate-600">
-        {agent.agent}: {pct(agent.bounce_rate)} of escalations came back (team{" "}
-        {pct(agent.team_bounce_rate)}).
-      </p>
     </Card>
   );
 }

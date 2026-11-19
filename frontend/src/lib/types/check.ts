@@ -15,6 +15,7 @@ export type KnownIssue = {
   id: number;
   title: string;
   category: string;
+  issue_type: string | null;
   status: string;
   workaround: string | null;
   source: string | null;

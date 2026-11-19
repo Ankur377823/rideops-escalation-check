@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ErrorNote, Loading } from "@/components/ui";
+import { usePageTitle } from "@/lib/usePageTitle";
 import { ChecklistCard } from "./ChecklistCard";
 import { DecisionCard } from "./DecisionCard";
 import { HandoffNoteCard } from "./HandoffNoteCard";
@@ -18,6 +19,7 @@ import { useTicketCheck } from "./useTicketCheck";
 export function TicketCheck() {
   const { id } = useParams<{ id: string }>();
   const state = useTicketCheck(id);
+  usePageTitle(id);
   if (state.check.isPending) return <Loading what="check" />;
   if (state.check.isError) return <ErrorNote error={state.check.error} />;
   const check = state.check.data;
@@ -40,8 +42,8 @@ export function TicketCheck() {
       <div className="grid items-start gap-4 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
           <HistoryCard history={check.history} advice={check.advice} />
-          <KnownIssuesCard issues={check.known_issues} />
-          <L1ExamplesCard examples={check.l1_examples} agent={check.agent} />
+          <KnownIssuesCard issues={check.known_issues} issueType={check.history.issue_type} />
+          <L1ExamplesCard examples={check.l1_examples} />
         </div>
         <div className="space-y-4 lg:col-span-3">
           <ChecklistCard checklist={check.checklist} state={state} />
