@@ -270,7 +270,8 @@ shown as context. It becomes a warning only when an issue's return rate is clear
   escalations still take about 65 hours. At 100% prevention the what-if still leaves 35 open tickets
   against 48 actual.
 - **Known issues are seeded** from issue types that engineering returned as duplicates four or more
-  times. Their workarounds are empty until engineering adds them.
+  times. Three of them carry an example workaround, labelled as an example, because the data has no
+  real ones.
 - **History uses the whole file.** On an old ticket the tool also sees tickets raised later, and the
   known-issues board is seeded from the same data. In live use it would only see the past.
 - **"Similar tickets" means the same description** once numbers are removed. That works on this data

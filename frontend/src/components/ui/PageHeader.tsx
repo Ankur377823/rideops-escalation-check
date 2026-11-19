@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { usePageTitle } from "@/lib/usePageTitle";
 
 type Props = {
   title: string;
@@ -8,6 +11,7 @@ type Props = {
 };
 
 export function PageHeader({ title, audience, children }: Props) {
+  usePageTitle(title);
   return (
     <header>
       {audience && (
