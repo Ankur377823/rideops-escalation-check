@@ -4,6 +4,9 @@ A pre-escalation check for RideOps L1 support agents, built for the RideOps Supp
 
 **Live demo:** https://rideops-escalation-check.vercel.app
 
+**Write-up (4 pages):** [docs/RideOps_Support_Writeup.pdf](docs/RideOps_Support_Writeup.pdf). It covers the
+diagnosis, the success measures, what was built and the four-week plan.
+
 The API runs on Render's free plan and sleeps when idle, so the first page can take up to a minute to
 load. API docs: https://escalation-check-api.onrender.com/docs
 
@@ -101,6 +104,8 @@ Each file does one job and is kept short (the longest backend file is under 90 l
 │       ├── features/          overview, tickets, check, dashboard, evidence, known-issues, log
 │       ├── components/        shared ui, layout (sidebar, top bar) and charts
 │       └── lib/               API client, formatters, clipboard helper, types
+├── docs/
+│   └── RideOps_Support_Writeup.pdf   the case study write-up
 ├── notebooks/
 │   ├── 01_diagnosis.ipynb
 │   ├── 02_success_measures.ipynb
