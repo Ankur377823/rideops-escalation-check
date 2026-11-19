@@ -25,10 +25,10 @@ export default function DashboardPage() {
   return (
     <div className="space-y-4">
       <PageHeader title="Dashboard" audience="Support lead">
-        One headline measure, two drivers and one guardrail to watch each week. Data as of 30 Sep
+        One headline measure, two drivers and two guardrails to watch each week. Data as of 30 Sep
         2026.
       </PageHeader>
-      <HeadlineStats s={summary.data.summary} />
+      <HeadlineStats s={summary.data.summary} weeks={weekly.data} />
       <TrendCharts weeks={weekly.data} handoffs={summary.data.by_handoffs} />
       <AgentTable agents={agents.data} />
       <AttentionTable tickets={attention.data} />

@@ -1,12 +1,16 @@
 import type { Ticket } from "./ticket";
 
 export type Week = {
+  week_start: string;
   week_end: string;
   created: number;
   closed: number;
   open_at_end: number;
   open_over_48h: number;
   bounce_rate: number | null;
+  multi_handoff: number;
+  reopen_rate: number | null;
+  csat: number | null;
 };
 
 export type AgentRow = {
@@ -31,6 +35,10 @@ export type Headline = {
   bounce_rate: number;
   multi_handoff: number;
   reopen_rate: number;
+  csat: number | null;
+  eng_trips: number;
+  eng_trips_not_fixed: number;
+  tickets_by_month: Record<string, number>;
 };
 
 export type Summary = { summary: Headline; by_handoffs: HandoffRow[] };

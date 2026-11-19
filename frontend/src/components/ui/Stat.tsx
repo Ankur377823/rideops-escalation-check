@@ -37,6 +37,7 @@ export function Stat({ label, value, sub, role, icon }: Props) {
   );
 }
 
-export function StatRow({ children }: { children: ReactNode }) {
-  return <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{children}</div>;
+export function StatRow({ children, five }: { children: ReactNode; five?: boolean }) {
+  const wide = five ? "lg:grid-cols-3 2xl:grid-cols-5" : "xl:grid-cols-4";
+  return <div className={`grid gap-3 sm:grid-cols-2 ${wide}`}>{children}</div>;
 }

@@ -10,9 +10,10 @@ export function Hero() {
         Stop escalations that engineering cannot act on
       </h1>
       <p className="mt-3 max-w-3xl text-base text-slate-600">
-        More than half of the tickets that L1 support sends to engineering come back without a fix.
-        Escalation Check is a short check an agent runs before escalating, so engineering gets what
-        it needs the first time.
+        Open tickets rose because 52% more tickets arrived and handling slowed under that load. The
+        team cannot control volume this quarter. It can control the 68% of engineering trips that go
+        to tickets engineering does not fix. Escalation Check is a short check an agent runs before
+        escalating, so engineering gets what it needs the first time.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         <ButtonLink href="/tickets" variant="primary">

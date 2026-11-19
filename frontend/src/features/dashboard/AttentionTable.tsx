@@ -22,7 +22,7 @@ export function AttentionTable({ tickets }: { tickets: AttentionTicket[] }) {
   return (
     <Card
       title="Needs attention now"
-      hint={`${tickets.length} open tickets with 2+ engineering trips, or older than 48 hours. Oldest first.`}
+      hint={`${tickets.length} open tickets with 2+ engineering trips, or older than 48 hours. Most trips first, then oldest.`}
     >
       <Table columns={COLUMNS} minWidth={720}>
         {shown.map((ticket) => (
