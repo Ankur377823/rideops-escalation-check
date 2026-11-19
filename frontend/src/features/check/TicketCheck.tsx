@@ -23,6 +23,7 @@ export function TicketCheck() {
   if (state.check.isPending) return <Loading what="check" />;
   if (state.check.isError) return <ErrorNote error={state.check.error} />;
   const check = state.check.data;
+  const matched = check.known_issues.some((k) => k.issue_type === check.history.issue_type);
   // Steps 1 and 2 are for reading, so they are never marked done.
   const steps = [
     { label: "History", done: false },
@@ -46,7 +47,7 @@ export function TicketCheck() {
           <L1ExamplesCard examples={check.l1_examples} />
         </div>
         <div className="space-y-4 lg:col-span-3">
-          <ChecklistCard checklist={check.checklist} state={state} />
+          <ChecklistCard checklist={check.checklist} state={state} matched={matched} />
           <HandoffNoteCard note={state.note} makeNote={state.makeNote} />
           <DecisionCard check={check} state={state} />
         </div>

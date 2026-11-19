@@ -4,9 +4,14 @@ import { ChecklistField } from "./ChecklistField";
 import { isAnswered } from "./checklist";
 import type { TicketCheckState } from "./useTicketCheck";
 
-type Props = { checklist: ChecklistItem[]; state: TicketCheckState };
+type Props = { checklist: ChecklistItem[]; state: TicketCheckState; matched: boolean };
 
-export function ChecklistCard({ checklist, state }: Props) {
+/** The checklist item that guards against duplicates of a known issue. */
+const KNOWN_ISSUE_ITEM = "known_issue";
+const MATCH_NOTE =
+  "Step 2 found a known issue that matches this ticket. Check it before you tick this.";
+
+export function ChecklistCard({ checklist, state, matched }: Props) {
   const done = checklist.filter((item) => isAnswered(item, state.answers)).length;
   const percent = checklist.length ? Math.round((done / checklist.length) * 100) : 100;
   return (
@@ -43,6 +48,7 @@ export function ChecklistCard({ checklist, state }: Props) {
             item={item}
             value={state.answers[item.id]}
             done={isAnswered(item, state.answers)}
+            note={matched && item.id === KNOWN_ISSUE_ITEM ? MATCH_NOTE : undefined}
             onChange={(value) => state.setAnswer(item.id, value)}
           />
         ))}

@@ -9,11 +9,14 @@ type Props = {
   /** Small label above the number, for example "Headline" or "Guardrail". */
   role?: string;
   icon?: IconName;
+  /** Takes two columns in a StatRow of five, so no slot is left empty. */
+  wide?: boolean;
 };
 
-export function Stat({ label, value, sub, role, icon }: Props) {
+export function Stat({ label, value, sub, role, icon, wide }: Props) {
+  const span = wide ? "sm:col-span-2 2xl:col-span-1" : "";
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-xs">
+    <div className={`rounded-xl border border-slate-200 bg-white p-4 shadow-xs ${span}`}>
       <div className="flex items-start justify-between gap-2">
         <div>
           {role && (

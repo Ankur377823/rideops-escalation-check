@@ -16,6 +16,7 @@ export function HeadlineStats({ s, weeks }: Props) {
     <div>
       <StatRow five>
         <Stat
+          wide
           role="Headline"
           icon="clock"
           label="Open tickets older than 48h"

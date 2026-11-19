@@ -5,11 +5,13 @@ type Props = {
   item: ChecklistItem;
   value: string | boolean | undefined;
   done: boolean;
+  /** Shown under the item, for example when it conflicts with step 2. */
+  note?: string;
   onChange: (value: string | boolean) => void;
 };
 
 /** One checklist row: a tick box or a text box, with the reason it exists. */
-export function ChecklistField({ item, value, done, onChange }: Props) {
+export function ChecklistField({ item, value, done, note, onChange }: Props) {
   return (
     <li
       className={`rounded-lg border px-3 py-2.5 ${
@@ -38,6 +40,7 @@ export function ChecklistField({ item, value, done, onChange }: Props) {
           />
         </label>
       )}
+      {note && <p className="mt-1.5 text-[13px] font-medium text-amber-800">{note}</p>}
       <div className="mt-1.5 flex items-center justify-between gap-2 text-[13px] text-slate-600">
         <span>Prevents: {item.prevents}</span>
         {done && (
