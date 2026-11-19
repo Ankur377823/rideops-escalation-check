@@ -2,6 +2,11 @@
 
 A pre-escalation check for RideOps L1 support agents, built for the RideOps Support case study.
 
+**Live demo:** https://rideops-escalation-check.vercel.app
+
+The API runs on Render's free plan and sleeps when idle, so the first page can take up to a minute to
+load. API docs: https://escalation-check-api.onrender.com/docs
+
 ## The problem
 
 RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Ticket
@@ -195,6 +200,12 @@ jupyter lab
 
 Each notebook is self-contained: it reads the CSV and uses plain pandas steps. The numbers match the app.
 
+| Notebook | Question it answers |
+|---|---|
+| `01_diagnosis.ipynb` | What is driving the open tickets? |
+| `02_success_measures.ipynb` | What should "better" mean, and how do we track it weekly? |
+| `03_does_it_work.ipynb` | Do the assumptions behind the tool hold, and how much could it help? |
+
 ## Environment variables
 
 | Where | Variable | Purpose |
@@ -213,10 +224,11 @@ says which one was used. Never commit a real key: `backend/.env` is git-ignored.
 
 **Backend on Render.** Create a Web Service from this repo, or use `render.yaml`. Root directory
 `backend`, build `pip install -r requirements.txt`, start
-`uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Set `ALLOWED_ORIGINS` to the Vercel URL.
+`uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Set `ALLOWED_ORIGINS` to the Vercel URL, with
+`https` and no trailing slash. Without it the browser blocks every API call.
 
 **Frontend on Vercel.** Import the repo, set the root directory to `frontend`, and set
-`NEXT_PUBLIC_API_URL` to the Render URL.
+`NEXT_PUBLIC_API_URL` to the Render URL. This value is built into the site, so redeploy after changing it.
 
 Two things to know about the free tiers:
 
