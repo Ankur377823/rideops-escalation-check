@@ -46,7 +46,7 @@ export function ScreenGuide() {
   return (
     <section>
       <h2 className="text-sm font-semibold text-slate-900">Screens, by who uses them</h2>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {SCREENS.map((screen) => (
           <Link
             key={screen.href}

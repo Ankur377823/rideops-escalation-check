@@ -5,7 +5,7 @@ import { useState } from "react";
 import { api } from "@/lib/api";
 import type { TicketList } from "@/lib/types/ticket";
 
-export const PAGE_SIZE = 25;
+export const PAGE_SIZE = 10;
 
 export type TicketFilterState = {
   q: string;

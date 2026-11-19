@@ -30,7 +30,9 @@ export function TopBar() {
         <span className="text-slate-500">RideOps Support</span>
         {trail.map((part, index) => (
           <span key={part} className="flex items-center gap-2">
-            <span className="text-slate-300">/</span>
+            <span className="text-slate-400" aria-hidden="true">
+              /
+            </span>
             <span
               className={
                 index === trail.length - 1 ? "font-semibold text-slate-900" : "text-slate-500"
@@ -43,7 +45,11 @@ export function TopBar() {
       </div>
       <div className="flex items-center gap-2">
         <Badge>Data: 2 Jul to 30 Sep 2026</Badge>
-        {mode && <Badge tone={mode === "enforce" ? "amber" : "blue"}>{mode} mode</Badge>}
+        {mode && (
+          <Badge tone={mode === "enforce" ? "amber" : "blue"}>
+            {mode === "enforce" ? "Enforce mode" : "Monitor mode"}
+          </Badge>
+        )}
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ type Props = {
 export function ChecklistField({ item, value, done, onChange }: Props) {
   return (
     <li
-      className={`rounded-lg border p-3 transition-colors ${
+      className={`rounded-lg border px-3 py-2.5 ${
         done ? "border-emerald-200 bg-emerald-50/50" : "border-slate-200"
       }`}
     >
@@ -38,7 +38,7 @@ export function ChecklistField({ item, value, done, onChange }: Props) {
           />
         </label>
       )}
-      <div className="mt-2 flex items-center justify-between gap-2 text-[13px] text-slate-600">
+      <div className="mt-1.5 flex items-center justify-between gap-2 text-[13px] text-slate-600">
         <span>Prevents: {item.prevents}</span>
         {done && (
           <span className="flex items-center gap-1 font-medium text-emerald-700">

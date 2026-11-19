@@ -45,7 +45,7 @@ export function HandoffNoteCard({ note, makeNote }: Props) {
         <>
           <pre
             ref={noteBox}
-            className="mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-relaxed text-slate-800"
+            className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg border border-slate-200 bg-slate-50 p-4 font-mono text-xs leading-relaxed text-slate-800"
           >
             {note.note}
           </pre>

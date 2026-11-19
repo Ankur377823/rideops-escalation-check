@@ -2,7 +2,7 @@ import { ButtonLink, Icon } from "@/components/ui";
 
 export function Hero() {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs lg:p-8">
+    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs">
       <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">
         RideOps Support case study
       </p>
@@ -14,7 +14,7 @@ export function Hero() {
         Escalation Check is a short check an agent runs before escalating, so engineering gets what
         it needs the first time.
       </p>
-      <div className="mt-5 flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         <ButtonLink href="/tickets" variant="primary">
           Open the ticket queue <Icon name="arrow" />
         </ButtonLink>

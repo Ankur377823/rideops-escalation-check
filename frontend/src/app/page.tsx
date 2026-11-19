@@ -16,7 +16,7 @@ export default function OverviewPage() {
     queryFn: () => api<Summary>("/metrics/summary"),
   });
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <Hero />
       <section>
         <h2 className="text-sm font-semibold text-slate-900">The problem in four numbers</h2>

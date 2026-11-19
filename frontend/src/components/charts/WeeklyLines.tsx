@@ -17,7 +17,7 @@ export type Series = { key: string; name: string; color: 1 | 2; dashed?: boolean
 type Props = { data: object[]; xKey: string; series: Series[]; height?: number; unit?: string };
 
 /** Weekly line chart. One y-axis only; every series shares the same unit. */
-export function WeeklyLines({ data, xKey, series, height = 240, unit = "" }: Props) {
+export function WeeklyLines({ data, xKey, series, height = 200, unit = "" }: Props) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data} margin={{ top: 8, right: 12, bottom: 0, left: -12 }}>
@@ -38,7 +38,11 @@ export function WeeklyLines({ data, xKey, series, height = 240, unit = "" }: Pro
           formatter={(v) => `${v}${unit}`}
         />
         {series.length > 1 && (
-          <Legend iconType="plainline" wrapperStyle={{ fontSize: 12, color: INK }} />
+          <Legend
+            iconType="plainline"
+            wrapperStyle={{ fontSize: 12 }}
+            formatter={(name: string) => <span style={{ color: INK }}>{name}</span>}
+          />
         )}
         {series.map((s) => (
           <Line
