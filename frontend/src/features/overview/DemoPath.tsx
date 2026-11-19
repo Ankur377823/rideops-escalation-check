@@ -17,20 +17,26 @@ export function DemoPath() {
     <Card title="Try it in two minutes" hint="A short path through the main features.">
       <ol className="list-decimal space-y-2 pl-5 text-sm text-slate-700">
         <li>
-          Open ticket <To href={`/tickets/${DEMO_TICKET}`}>{DEMO_TICKET}</To>. The history shows
-          that most past escalations of this issue came back.
+          Open ticket <To href={`/tickets/${DEMO_TICKET}`}>{DEMO_TICKET}</To>. The history is shown
+          as context, and step 2 flags that the ticket matches a known issue.
         </li>
-        <li>Fill in part of the checklist, then generate the handoff note.</li>
         <li>
-          Click <b>Escalate to engineering</b>. In Monitor mode it is allowed, and the gaps are
-          logged.
+          Fill in part of the checklist and generate the handoff note. The note lists what was not
+          provided.
+        </li>
+        <li>
+          Click <b>Escalate to engineering</b> anyway. In Monitor mode it is allowed, and the gaps
+          are logged.
         </li>
         <li>
           Switch <b>Check mode</b> to Enforce (bottom of the menu) and try again. Escalation is now
           blocked until the checklist is complete.
         </li>
         <li>
-          Open the <To href="/log">decision log</To> to see what was recorded, then the{" "}
+          Click <b>Link to known issue</b>, which is what the tool suggested.
+        </li>
+        <li>
+          Open the <To href="/log">decision log</To> to see all of it recorded, then the{" "}
           <To href="/dashboard">dashboard</To> for the measures a lead would track.
         </li>
       </ol>

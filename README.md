@@ -54,13 +54,13 @@ and the current mode.
 
 ### A two-minute tour
 
-1. Open the **Overview** page. It shows the problem in four numbers and how the check works.
-2. Open ticket `SUP-11438` from the **Ticket queue**. The history shows most past escalations of this
-   issue came back.
-3. Fill in part of the checklist and click **Generate note**. The note lists what was not provided.
-4. Click **Escalate to engineering**. In Monitor mode it is allowed and the gaps are logged.
-5. Switch to **Enforce** and try again. Escalation is blocked until the checklist is complete.
-6. Open the **Decision log** to see what was recorded.
+1. Open ticket `SUP-11438` from the **Ticket queue**. The history shows most past escalations of this
+   issue came back, as context, and step 2 flags that the ticket matches a known issue.
+2. Fill in part of the checklist and click **Generate note**. The note lists what was not provided.
+3. Click **Escalate to engineering** anyway. In Monitor mode it is allowed and the gaps are logged.
+4. Switch to **Enforce** and try again. Escalation is blocked until the checklist is complete.
+5. Click **Link to known issue**, which is what the tool suggested.
+6. Open the **Decision log** to see all of it recorded.
 
 ## Tech stack
 
