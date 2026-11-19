@@ -12,15 +12,19 @@ load. API docs: https://escalation-check-api.onrender.com/docs
 
 ## The problem
 
-RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Ticket
-volume grew 52% in the same period, but the data points to one cause the team controls: escalations
-that engineering cannot act on.
+RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Two
+things explain the rise: 52% more tickets arrived, and every stage of handling slowed by about a fifth
+under that load.
+
+The team cannot control volume this quarter. It can control where engineering's time goes:
 
 - 486 of 1,444 tickets were escalated to engineering.
 - 275 of those (57%) came back without an engineering fix: missing information, config issues L1 could
-  have handled, duplicates of known issues, how-to questions.
-- Those 275 tickets are 19% of all tickets but 47% of all ticket waiting time.
+  have handled, duplicates of known issues, how-to questions. This was already true in July.
+- Counted as work, 528 of engineering's 777 trips (68%) went to tickets it did not end up fixing.
 - Each extra trip to engineering adds about two days and lowers the client rating.
+
+Removing those trips is how engineering gets time back for real fixes without new hires.
 
 ## The tool
 
@@ -66,7 +70,7 @@ and the current mode.
 | Backend | FastAPI, pandas |
 | Storage | CSV for ticket data, SQLite for decisions and known issues |
 | Handoff note | Plain template, optionally rewritten by Gemini through LiteLLM (the only use of AI) |
-| Tests | pytest (33 tests, including one end-to-end journey), ruff, TypeScript, ESLint, Prettier |
+| Tests | pytest (34 tests, including one end-to-end journey), ruff, TypeScript, ESLint, Prettier |
 | Analysis | Jupyter notebooks |
 
 ## Project structure
@@ -92,7 +96,7 @@ Each file does one job and is kept short (the longest backend file is under 90 l
 │   │   ├── handoff/           handoff note: template and optional LLM
 │   │   └── store/             SQLite: decisions, known issues, mode
 │   ├── data/                  the two case-study CSV files
-│   ├── tests/                 33 pytest tests: one file per module, plus one end-to-end journey
+│   ├── tests/                 34 pytest tests: one file per module, plus one end-to-end journey
 │   ├── Dockerfile             backend image
 │   ├── requirements.txt       runtime dependencies
 │   ├── requirements-dev.txt   adds pytest and ruff
@@ -252,7 +256,8 @@ Two ideas were tested on the data before building. Both are shown on the "Does i
    against a 14% base rate. It does not work either.
 
 So the tool does not score tickets as risky. It applies the same reason-based checklist to every
-escalation, and duplicates are handled by a board that engineering maintains.
+escalation, and duplicates are handled by a board that engineering maintains. The history panel is
+shown as context. It becomes a warning only when an issue's return rate is clearly above the team's.
 
 ## Assumptions and limits
 
@@ -266,6 +271,8 @@ escalation, and duplicates are handled by a board that engineering maintains.
   against 48 actual.
 - **Known issues are seeded** from issue types that engineering returned as duplicates four or more
   times. Their workarounds are empty until engineering adds them.
+- **History uses the whole file.** On an old ticket the tool also sees tickets raised later, and the
+  known-issues board is seeded from the same data. In live use it would only see the past.
 - **"Similar tickets" means the same description** once numbers are removed. That works on this data
   (201 descriptions become 48 issue types) but real free-text tickets would need looser matching.
 - **AI is used in one place only**, to reword the handoff note. It never decides whether a ticket is
