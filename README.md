@@ -13,8 +13,8 @@ load. API docs: https://escalation-check-api.onrender.com/docs
 ## The problem
 
 RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Two
-things explain the rise: 52% more tickets arrived, and every stage of handling slowed by about a fifth
-under that load.
+things explain it: 52% more tickets arrived, and every stage of handling slowed under that load, so the
+average ticket now stays open a fifth longer.
 
 The team cannot control volume this quarter. It can control where engineering's time goes:
 
