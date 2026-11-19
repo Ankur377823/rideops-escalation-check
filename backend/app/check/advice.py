@@ -7,7 +7,7 @@ the team as a whole.
 
 L1_FIRST_SHARE = 0.7  # at or above this, L1 usually resolves the issue itself
 CLEARLY_ABOVE_TEAM = 0.15  # warn only when the return rate is this far above the team's
-MIN_ESCALATIONS = 5  # and only when at least this many past escalations back it up
+MIN_ESCALATIONS = 8  # and only when at least this many past escalations back it up
 
 
 def _note(level: str, text: str) -> dict:
