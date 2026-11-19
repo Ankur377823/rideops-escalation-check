@@ -8,6 +8,8 @@ def test_headline_numbers(df):
     assert s["bounced"] == 275
     assert s["open_now"] == 48
     assert s["multi_handoff"] == 229
+    assert s["eng_trips"] == 777 and s["eng_trips_not_fixed"] == 528
+    assert s["csat"] == 3.7
     assert s["tickets_by_month"] == {"2026-07": 390, "2026-08": 462, "2026-09": 592}
     assert s["median_hours_l1"] == 12.6
     assert s["median_hours_escalated"] == 86.8
