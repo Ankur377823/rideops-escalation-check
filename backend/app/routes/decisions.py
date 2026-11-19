@@ -23,5 +23,5 @@ def record_decision(ticket_id: str, body: Decision):
 
 @router.get("/decisions")
 def decisions():
-    items = store.list_decisions()
-    return {"items": items, "summary": store.summarise_decisions(items)}
+    everything = store.list_decisions(limit=-1)  # SQLite: a negative limit means no limit
+    return {"items": everything[:200], "summary": store.summarise_decisions(everything)}

@@ -54,7 +54,9 @@ export function HeadlineStats({ s, weeks }: Props) {
       </StatRow>
       <p className="mt-2 text-[13px] text-slate-600">
         The headline is the count today. The other four show the latest full week, for tickets
-        raised from {day(latest.week_start)}.
+        raised from {day(latest.week_start)}. Proposed four-week targets: about 18 open over 48
+        hours, returns under 40%, about 11 multi-trip tickets a week, and reopens and rating no
+        worse. The rating is filled in on about 45% of tickets.
       </p>
     </div>
   );
