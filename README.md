@@ -13,8 +13,8 @@ load. API docs: https://escalation-check-api.onrender.com/docs
 ## The problem
 
 RideOps' open tickets rose 60% in two months: 30 at the end of July, 48 at the end of September. Two
-things explain it: 52% more tickets arrived, and every stage of handling slowed under that load, so the
-average ticket now stays open a fifth longer.
+things happened together: 52% more tickets arrived, and every stage of handling slowed over the same
+months, so the average ticket now stays open a fifth longer.
 
 The team cannot control volume this quarter. It can control where engineering's time goes:
 
@@ -22,7 +22,7 @@ The team cannot control volume this quarter. It can control where engineering's 
 - 275 of those (57%) came back without an engineering fix: missing information, config issues L1 could
   have handled, duplicates of known issues, how-to questions. This was already true in July.
 - Counted as work, 528 of engineering's 777 trips (68%) went to tickets it did not end up fixing.
-- Each extra trip to engineering adds about two days and lowers the client rating.
+- Tickets with more trips to engineering take about two days longer per trip and are rated lower.
 
 Removing those trips is how engineering gets time back for real fixes without new hires.
 
@@ -54,12 +54,13 @@ and the current mode.
 
 ### A two-minute tour
 
-1. Open ticket `SUP-11438` from the **Ticket queue**. The history shows most past escalations of this
-   issue came back, as context, and step 2 flags that the ticket matches a known issue.
+1. Open ticket `SUP-11438` from the **Ticket queue**. Step 1 shows the history as context, and step 2
+   lists the known issues for this category.
 2. Fill in part of the checklist and click **Generate note**. The note lists what was not provided.
-3. Click **Escalate to engineering** anyway. In Monitor mode it is allowed and the gaps are logged.
+3. Click **Escalate to engineering**. In Monitor mode it is allowed and the gaps are logged.
 4. Switch to **Enforce** and try again. Escalation is blocked until the checklist is complete.
-5. Click **Link to known issue**, which is what the tool suggested.
+5. Open `SUP-11386`, which engineering returned as a duplicate. The same problem is on the board in
+   step 2, so **Link to known issue** is the right call here.
 6. Open the **Decision log** to see all of it recorded.
 
 ## Tech stack
@@ -258,6 +259,9 @@ Two ideas were tested on the data before building. Both are shown on the "Does i
 So the tool does not score tickets as risky. It applies the same reason-based checklist to every
 escalation, and duplicates are handled by a board that engineering maintains. The history panel is
 shown as context. It becomes a warning only when an issue's return rate is clearly above the team's.
+The known-issues board is shown the same way: a ticket of the same issue type is marked, but the agent
+decides whether it is the same problem. Of 139 past escalations whose issue type is on the board, only
+27% were duplicates and 40% were real fixes.
 
 ## Assumptions and limits
 
@@ -278,5 +282,7 @@ shown as context. It becomes a warning only when an issue's return rate is clear
   (201 descriptions become 48 issue types) but real free-text tickets would need looser matching.
 - **AI is used in one place only**, to reword the handoff note. It never decides whether a ticket is
   escalated.
-- **No login.** Agent identity comes from the ticket's assigned agent.
+- **No login.** Agent identity comes from the ticket's assigned agent, and anyone can switch the mode.
+- **The log is a record, not a workflow.** A ticket can be logged more than once, a decision does not
+  change the ticket, and linking does not record which known issue was chosen.
 - **Ticket data is static.** Logging a decision does not change a ticket's status.
