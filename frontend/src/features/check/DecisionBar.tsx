@@ -1,27 +1,16 @@
 import { Button } from "@/components/ui";
 import type { TicketCheckState } from "./useTicketCheck";
 
-type Props = {
-  decide: TicketCheckState["decide"];
-  blocked: boolean;
-  canLink: boolean;
-  /** True when the ticket matches a known issue, so linking is the suggested action. */
-  matched: boolean;
-};
+type Props = { decide: TicketCheckState["decide"]; blocked: boolean; canLink: boolean };
 
-/** The three things an agent can do with a ticket after the check. */
-export function DecisionBar({ decide, blocked, canLink, matched }: Props) {
+/** The three things an agent can do with a ticket after the check. The tool does not pick one. */
+export function DecisionBar({ decide, blocked, canLink }: Props) {
   const busy = decide.isPending;
-  const linkHelp = matched
-    ? "This ticket matches an issue on the board."
-    : canLink
-      ? "It matches an issue on the board."
-      : "No known issues in this category.";
   return (
     <div className="grid gap-3 sm:grid-cols-3">
       <div>
         <Button
-          variant={matched ? "secondary" : "primary"}
+          variant="primary"
           className="w-full"
           disabled={blocked || busy}
           onClick={() => decide.mutate("escalated")}
@@ -38,14 +27,17 @@ export function DecisionBar({ decide, blocked, canLink, matched }: Props) {
       </div>
       <div>
         <Button
-          variant={matched ? "primary" : "secondary"}
           className="w-full"
           disabled={busy || !canLink}
           onClick={() => decide.mutate("linked_known_issue")}
         >
           Link to known issue
         </Button>
-        <p className="mt-1.5 text-[13px] text-slate-600">{linkHelp}</p>
+        <p className="mt-1.5 text-[13px] text-slate-600">
+          {canLink
+            ? "It is the same problem as one on the board."
+            : "No known issues in this category."}
+        </p>
       </div>
     </div>
   );

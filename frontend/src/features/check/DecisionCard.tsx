@@ -18,15 +18,9 @@ type Props = { check: Check; state: TicketCheckState };
 export function DecisionCard({ check, state }: Props) {
   const left = missingItems(check.checklist, state.answers).length;
   const blocked = check.mode === "enforce" && left > 0;
-  const matched = check.known_issues.some((issue) => issue.issue_type === check.history.issue_type);
   const { agent } = check;
   return (
     <Card step={5} title="Decide" hint={HINT[check.mode]}>
-      {matched && (
-        <p className={`${NOTE} bg-blue-50 text-blue-900 ring-blue-200`}>
-          This ticket matches a known issue in step 2. Linking it avoids a duplicate escalation.
-        </p>
-      )}
       {left > 0 && (
         <p
           className={`${NOTE} ${
@@ -45,7 +39,6 @@ export function DecisionCard({ check, state }: Props) {
         decide={state.decide}
         blocked={blocked}
         canLink={check.known_issues.length > 0}
-        matched={matched}
       />
       <DecisionMessage decide={state.decide} />
       {agent.bounce_rate != null && (

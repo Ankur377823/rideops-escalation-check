@@ -8,8 +8,7 @@ type Props = { checklist: ChecklistItem[]; state: TicketCheckState; matched: boo
 
 /** The checklist item that guards against duplicates of a known issue. */
 const KNOWN_ISSUE_ITEM = "known_issue";
-const MATCH_NOTE =
-  "Step 2 found a known issue that matches this ticket. Check it before you tick this.";
+const MATCH_NOTE = "Step 2 lists a known issue of the same type. Read it before you tick this.";
 
 export function ChecklistCard({ checklist, state, matched }: Props) {
   const done = checklist.filter((item) => isAnswered(item, state.answers)).length;
