@@ -35,7 +35,7 @@ export function HistoryCard({ history, advice }: { history: History; advice: Adv
     <Card
       step={1}
       title="Review the history"
-      hint={`Past tickets with the same issue: ${history.issue_type}`}
+      hint={`Past tickets with the same issue: ${history.issue_type}. This is context, not a prediction.`}
     >
       <div className="grid grid-cols-3 gap-3 text-center">
         <Count label="Solved at L1" value={history.resolved_at_l1} />

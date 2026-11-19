@@ -1,14 +1,31 @@
-"""Plain-language prompts for the agent. Each one quotes its own numbers."""
+"""Plain-language notes for the agent. Each one quotes its own numbers.
+
+The history is context, not a prediction. Notebook 3 shows that an issue type's past does not tell us
+which escalation will come back, so a note becomes a warning only when the issue is clearly worse than
+the team as a whole.
+"""
 
 L1_FIRST_SHARE = 0.7  # at or above this, L1 usually resolves the issue itself
-HIGH_BOUNCE = 0.5
+CLEARLY_ABOVE_TEAM = 0.15  # warn only when the return rate is this far above the team's
+MIN_ESCALATIONS = 5  # and only when at least this many past escalations back it up
 
 
 def _note(level: str, text: str) -> dict:
     return {"level": level, "text": text}
 
 
-def advice_for(history: dict) -> list[dict]:
+def _returns_note(h: dict, team_bounce_rate: float | None) -> dict:
+    text = f"{h['bounced']} of {h['escalated']} past escalations like this came back without an engineering fix"
+    if team_bounce_rate is None:
+        return _note("info", text + ".")
+    clearly_worse = (
+        h["escalated"] >= MIN_ESCALATIONS and (h["bounce_rate"] or 0) >= team_bounce_rate + CLEARLY_ABOVE_TEAM
+    )
+    text += f" (team average: {round(team_bounce_rate * 100)}%)."
+    return _note("warn" if clearly_worse else "info", text)
+
+
+def advice_for(history: dict, team_bounce_rate: float | None = None) -> list[dict]:
     h = history
     if not h["enough_history"]:
         return [
@@ -16,9 +33,7 @@ def advice_for(history: dict) -> list[dict]:
         ]
     out = []
     if h["escalated"]:
-        level = "warn" if (h["bounce_rate"] or 0) >= HIGH_BOUNCE else "info"
-        text = f"{h['bounced']} of {h['escalated']} past escalations like this came back without an engineering fix."
-        out.append(_note(level, text))
+        out.append(_returns_note(h, team_bounce_rate))
     if h["return_reasons"]:
         top = h["return_reasons"][0]
         out.append(_note("info", f"Most common reason for return: {top['reason']} ({top['count']} times)."))

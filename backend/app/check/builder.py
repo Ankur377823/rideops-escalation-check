@@ -23,11 +23,12 @@ def build_check(df: pd.DataFrame, ticket_id: str, known_issues: list[dict]) -> d
         return None
     ticket = match.iloc[0]
     history = history_for(df, ticket)
+    agent = agent_context(df, ticket["assigned_agent"])
     return {
         "ticket_id": ticket_id,
         "history": history,
-        "advice": advice_for(history),
-        "agent": agent_context(df, ticket["assigned_agent"]),
+        "advice": advice_for(history, agent["team_bounce_rate"]),
+        "agent": agent,
         "checklist": ordered_checklist(ticket["category"], history),
         "known_issues": known_issues,
         "l1_examples": l1_examples(df, ticket),

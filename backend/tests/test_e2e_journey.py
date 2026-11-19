@@ -18,7 +18,7 @@ def test_agent_takes_a_ticket_from_queue_to_decision_log(client):
     history, checklist = check["history"], check["checklist"]
     assert check["mode"] == "monitor"
     assert history["bounced"] > history["fixed_by_eng"]  # this issue usually comes back
-    assert any(advice["level"] == "warn" for advice in check["advice"])
+    assert "20 of 33 past escalations" in check["advice"][0]["text"]  # history is shown as context
     assert len(check["known_issues"]) > 0 and len(checklist) > 0
 
     # 3. The agent answers only the first item, then asks for the handoff note.
